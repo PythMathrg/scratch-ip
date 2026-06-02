@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, make_response
 
 app = Flask(__name__)
 
@@ -9,8 +9,14 @@ def get_ip():
     if ',' in user_ip:
         user_ip = user_ip.split(',')[0].strip()
         
-    # Loại bỏ dấu chấm để chuyển thành chuỗi số giống như bạn đang làm
     clean_ip = user_ip.replace('.', '')
     
-    # Trả trực tiếp chuỗi số này về cho Scratch
-    return str(clean_ip)
+    # Tạo phản hồi trả về chuỗi số IP
+    response = make_response(str(clean_ip))
+    
+    # BẬT CÔNG TẮC CORS: Cho phép tất cả các trang web (bao gồm TurboWarp) đọc được dữ liệu này
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = '*'
+    
+    return response
