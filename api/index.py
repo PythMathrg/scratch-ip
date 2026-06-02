@@ -9,12 +9,15 @@ def get_ip():
     if ',' in user_ip:
         user_ip = user_ip.split(',')[0].strip()
         
-    clean_ip = user_ip.replace('.', '')
+    # --- THAY ĐỒI Ở ĐÂY ---
+    # Thay vì dùng .replace('.', '') để xóa dấu chấm, 
+    # tụi mình giữ nguyên biến user_ip ban đầu để có đầy đủ dấu chấm.
+    final_ip = str(user_ip)
     
-    # Tạo phản hồi trả về chuỗi số IP
-    response = make_response(str(clean_ip))
+    # Tạo phản hồi trả về chuỗi IP chuẩn (Ví dụ: 42.113.123.45)
+    response = make_response(final_ip)
     
-    # BẬT CÔNG TẮC CORS: Cho phép tất cả các trang web (bao gồm TurboWarp) đọc được dữ liệu này
+    # Giữ nguyên cấu hình CORS để TurboWarp không bị chặn
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = '*'
